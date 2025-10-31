@@ -88,3 +88,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# Roo helper files
+RoocodeHelperFiles/
