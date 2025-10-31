@@ -208,7 +208,7 @@ class Parser:
             if top == '$':
                 stack.pop()
             elif (top in terminals):
-                currentTokenType = tokens[inputTokensIndex].tokenType.name if inputTokensIndex < len(tokens) else '$'
+                currentTokenType = tokens[inputTokensIndex].tokenType.name
                 if top == currentTokenType:
                     stack.pop()
 
@@ -229,7 +229,7 @@ class Parser:
                     raise Exception(f"Parse Error: Expected {top}, found {currentTokenType}")
                 
             elif top in nonTerminals:
-                currentTokenType = tokens[inputTokensIndex].tokenType.name if inputTokensIndex < len(tokens) else '$'
+                currentTokenType = tokens[inputTokensIndex].tokenType.name
 
                 productionRules = parsingTable.get(top, None).get(currentTokenType, None)
                 if productionRules is not None:
