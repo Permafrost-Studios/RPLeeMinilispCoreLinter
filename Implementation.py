@@ -80,18 +80,18 @@ class Token:
         return not self == other
 
 
-class LexicalAnalyser:
+class Lexer:
     @classmethod
     def createTransitionFunctions(cls):
-        numbers = ["0","1","2","3","4","5","6","7","8","9"]
+        numbers = {"0","1","2","3","4","5","6","7","8","9"}
 
-        lowerCaseIdentifiers = ["a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"]
-        identifiers = lowerCaseIdentifiers + [x.upper() for x in lowerCaseIdentifiers]
+        lowerCaseIdentifiers = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
+        identifiers = lowerCaseIdentifiers.union({x.upper() for x in lowerCaseIdentifiers})
 
-        operators = ["+", "×", "=", "−", "?", "λ", "≜"]
-        formattingCharacters = ["(", ")"]
+        operators = {"+", "×", "=", "−", "?", "λ", "≜"}
+        formattingCharacters = {"(", ")"}
 
-        singleCharacterTokenCharacters = operators + formattingCharacters
+        singleCharacterTokenCharacters = operators.union(formattingCharacters)
 
         #alphabet = numbers + identifiers + singleCharacterTokenCharacters
 
@@ -115,8 +115,6 @@ class LexicalAnalyser:
 
     @classmethod
     def GetTokensForString(cls, input):
-        AcceptingStates = [State.NUMBER, State.IDENTIFIER]
-
         transitionFunctionDictionary = cls.createTransitionFunctions()
 
         allTokens = []
@@ -159,6 +157,93 @@ class LexicalAnalyser:
             allTokens.append(Token(TokenType.IDENTIFIER, identifierBuffer))
 
         return allTokens
+    
+class Parser:
+    @classmethod
+    def Parse(cls, tokens):
+        parsingTable = {
+            '<program>': {
+                'NUMBER': ['<expr>'],
+                'IDENTIFIER': ['<expr>'],
+                'LPAREN': ['<expr>']
+            },
+            '<expr>': {
+                'NUMBER': ['NUMBER'],
+                'IDENTIFIER': ['IDENTIFIER'],
+                'LPAREN': ['LPAREN', '<parent-expr>', 'RPAREN']
+            },
+            '<parent-expr>': {
+                'PLUS': ['PLUS', '<expr>', '<expr>'],
+                'MULT': ['MULT', '<expr>', '<expr>'],
+                'EQUALS': ['EQUALS', '<expr>', '<expr>'],
+                'MINUS': ['MINUS', '<expr>', '<expr>'],
+                'CONDITIONAL': ['CONDITIONAL', '<expr>', '<expr>', '<expr>'],
+                'LAMBDA': ['LAMBDA', 'IDENTIFIER', '<expr>'],
+                'LET': ['LET', 'IDENTIFIER', '<expr>', '<expr>'],
+                'NUMBER': ['<expr>', '<expr>*'],
+                'IDENTIFIER': ['<expr>', '<expr>*'],
+                'LPAREN': ['<expr>', '<expr>*']
+            },
+            '<expr>*': {
+                'NUMBER': ['<expr>', '<expr>*'],
+                'IDENTIFIER': ['<expr>', '<expr>*'],
+                'LPAREN': ['<expr>', '<expr>*'],
+                'RPAREN': []  # (empty production)
+            }
+        }
+
+        parseTreeStack = [[]]
+        currentlyObservedParseTreeSublist = parseTreeStack[-1]
+
+        terminals = {'NUMBER', 'IDENTIFIER', 'PLUS', 'MULT', 'EQUALS', 'MINUS', 'CONDITIONAL', 'LAMBDA', 'LET', 'LPAREN', 'RPAREN', '$'}
+        nonTerminals = set(parsingTable.keys())
+
+        stack = ['$', '<program>']
+
+        inputTokensIndex = 0
+        
+        while len(stack) > 0:
+            top = stack[-1]
+
+            if top == '$':
+                stack.pop()
+            elif (top in terminals):
+                currentTokenType = tokens[inputTokensIndex].tokenType.name if inputTokensIndex < len(tokens) else '$'
+                if top == currentTokenType:
+                    stack.pop()
+
+                    if (currentTokenType == 'LPAREN'):
+                        newParseTreeSublist = []
+                        parseTreeStack.append(newParseTreeSublist)
+                        currentlyObservedParseTreeSublist = newParseTreeSublist
+                    elif (currentTokenType == 'RPAREN'):
+                        completedParseTreeSublist = parseTreeStack.pop()
+                        if len(parseTreeStack) > 0:
+                            parseTreeStack[-1].append(completedParseTreeSublist)
+                            currentlyObservedParseTreeSublist = parseTreeStack[-1]
+                    else:
+                        currentlyObservedParseTreeSublist.append(tokens[inputTokensIndex])
+                    
+                    inputTokensIndex += 1
+                else:
+                    raise Exception(f"Parse Error: Expected {top}, found {currentTokenType}")
+                
+            elif top in nonTerminals:
+                currentTokenType = tokens[inputTokensIndex].tokenType.name if inputTokensIndex < len(tokens) else '$'
+
+                productionRules = parsingTable.get(top, None).get(currentTokenType, None)
+                if productionRules is not None:
+                    stack.pop()
+                    if len(productionRules) == 0:
+                        pass
+                    else:
+                        for symbol in reversed(productionRules):
+                            stack.append(symbol)
+                else:
+                    raise Exception(f"Parse Error: No production for {top} with input {currentTokenType}")
+
+        result = parseTreeStack[0]
+        return result[0] if len(result) == 1 else result
          
 def main():
     print("test")
@@ -166,20 +251,71 @@ def main():
     
 if __name__ == "__main__":
      # Basic expressions
-     print(LexicalAnalyser.GetTokensForString("42"))
-     print(LexicalAnalyser.GetTokensForString("x"))
-     print(LexicalAnalyser.GetTokensForString("(+ 2 3)"))
-     print(LexicalAnalyser.GetTokensForString("(× x 5)"))
+     print("Test: 42")
+     tokens1 = Lexer.GetTokensForString("42")
+     print("Tokens:", tokens1)
+     print("Parse:", Parser.Parse(tokens1))
+     print()
+     
+     print("Test: x")
+     tokens2 = Lexer.GetTokensForString("x")
+     print("Tokens:", tokens2)
+     print("Parse:", Parser.Parse(tokens2))
+     print()
+     
+     print("Test: (+ 2 3)")
+     tokens3 = Lexer.GetTokensForString("(+ 2 3)")
+     print("Tokens:", tokens3)
+     print("Parse:", Parser.Parse(tokens3))
+     print()
+     
+     print("Test: (× x 5)")
+     tokens4 = Lexer.GetTokensForString("(× x 5)")
+     print("Tokens:", tokens4)
+     print("Parse:", Parser.Parse(tokens4))
+     print()
      
      # Nested expressions
-     print(LexicalAnalyser.GetTokensForString("(+ (× 2 3) 4)"))
-     print(LexicalAnalyser.GetTokensForString("(? (= x 0) 1 0)"))
+     print("Test: (+ (× 2 3) 4)")
+     tokens5 = Lexer.GetTokensForString("(+ (× 2 3) 4)")
+     print("Tokens:", tokens5)
+     print("Parse:", Parser.Parse(tokens5))
+     print()
+     
+     print("Test: (? (= x 0) 1 0)")
+     tokens6 = Lexer.GetTokensForString("(? (= x 0) 1 0)")
+     print("Tokens:", tokens6)
+     print("Parse:", Parser.Parse(tokens6))
+     print()
      
      # Function expressions
-     print(LexicalAnalyser.GetTokensForString("(λ x x)"))
-     print(LexicalAnalyser.GetTokensForString("(≜ y 10 y)"))
-     print(LexicalAnalyser.GetTokensForString("((λ x (+ x 1)) 5)"))
+     print("Test: (λ x x)")
+     tokens7 = Lexer.GetTokensForString("(λ x x)")
+     print("Tokens:", tokens7)
+     print("Parse:", Parser.Parse(tokens7))
+     print()
+     
+     print("Test: (≜ y 10 y)")
+     tokens8 = Lexer.GetTokensForString("(≜ y 10 y)")
+     print("Tokens:", tokens8)
+     print("Parse:", Parser.Parse(tokens8))
+     print()
+     
+     print("Test: ((λ x (+ x 1)) 5)")
+     tokens9 = Lexer.GetTokensForString("((λ x (+ x 1)) 5)")
+     print("Tokens:", tokens9)
+     print("Parse:", Parser.Parse(tokens9))
+     print()
      
      # More complex
-     print(LexicalAnalyser.GetTokensForString("(× (+ 1 2) (− 5 3))"))
-     print(LexicalAnalyser.GetTokensForString("(λ f (λ x (f x)))"))
+     print("Test: (× (+ 1 2) (− 5 3))")
+     tokens10 = Lexer.GetTokensForString("(× (+ 1 2) (− 5 3))")
+     print("Tokens:", tokens10)
+     print("Parse:", Parser.Parse(tokens10))
+     print()
+     
+     print("Test: (λ f (λ x (f x)))")
+     tokens11 = Lexer.GetTokensForString("(λ f (λ x (f x)))")
+     print("Tokens:", tokens11)
+     print("Parse:", Parser.Parse(tokens11))
+     print()
