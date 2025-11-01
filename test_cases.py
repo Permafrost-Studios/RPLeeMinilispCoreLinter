@@ -69,11 +69,23 @@ def main() -> None:
         # Negative tests
         {"input": "(+ 1)", "desc": "Too few args for +", "expected": {"status": "error"}},
         {"input": "(+ 1 2 3)", "desc": "Too many args for +", "expected": {"status": "error", "error_contains": "Expected closing parenthesis"}},
-        {"input": "@", "desc": "Invalid character", "expected": {"status": "error", "error_contains": "Character is not in the valid alphabet"}},
+        {"input": "@", "desc": "Invalid character", "expected": {"status": "error", "error_contains": "Character '@' is not in the alphabet"}},
         {"input": ")", "desc": "Unmatched closing parenthesis", "expected": {"status": "error"}},
         {"input": "(? 1 2)", "desc": "Too few args for ?", "expected": {"status": "error"}},
-        {"input": "(- 7 2)", "desc": "ASCII hyphen-minus should be rejected", "expected": {"status": "error", "error_contains": "Character is not in the valid alphabet"}},
-        {"input": "((λ x (+ x 1)) 5", "desc": "Missing closing parenthesis", "expected": {"status": "error"}}
+        {"input": "(- 7 2)", "desc": "ASCII hyphen-minus should be rejected", "expected": {"status": "error", "error_contains": "Character '-' is not in the alphabet"}},
+        {"input": "((λ x (+ x 1)) 5", "desc": "Missing closing parenthesis", "expected": {"status": "error"}, "error_contains": "Missing closing parenthesis"},
+
+        # Whitespace tolerance (positive)
+        {"input": "   42   ", "desc": "Leading/trailing spaces around number", "expected": {"status": "success"}},
+        {"input": "( + 2 3 )", "desc": "Spaces between parens, operator, and operands", "expected": {"status": "success"}},
+        {"input": "(+    2    3)", "desc": "Multiple spaces between tokens", "expected": {"status": "success"}},
+        {"input": "(\n+ \n2\t3\n)", "desc": "Newlines and tabs between tokens", "expected": {"status": "success"}},
+        {"input": "(\nλ  x   x\n)", "desc": "Lambda with mixed whitespace", "expected": {"status": "success"}},
+        {"input": "(\n(λ   x   (+  x    1))\t  5\n)", "desc": "Nested application with whitespace", "expected": {"status": "success"}},
+
+        # Whitespace-only or empty input (negative)
+        {"input": "   \n\t  ", "desc": "Whitespace-only input", "expected": {"status": "error"}},
+        {"input": "", "desc": "Empty input", "expected": {"status": "error"}},
     ]
 
     results = [run_test_case(t["input"], t["desc"], t["expected"]) for t in tests]

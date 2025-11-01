@@ -393,7 +393,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <expr>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 295, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 284, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
     },
     "success": true
   },
@@ -408,7 +408,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Expected closing parenthesis, but found: NUMBER. Wrong number of arguments",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 262, in Parse\n    raise ParseException(f\"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments\")\nImplementation.ParseException: Expected closing parenthesis, but found: NUMBER. Wrong number of arguments\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 295, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 265, in Parse\n    raise ParseException(f\"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments\")\nImplementation.ParseException: Expected closing parenthesis, but found: NUMBER. Wrong number of arguments\n"
     },
     "success": true
   },
@@ -417,15 +417,15 @@
     "input": "@",
     "expected_output": {
       "status": "error",
-      "error_contains": "Character is not in the valid alphabet"
+      "error_contains": "Character '@' is not in the alphabet"
     },
     "actual_output": {
       "status": "error",
       "parse_tree": null,
       "error": "Character '@' is not in the alphabet",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 291, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '@' is not in the alphabet\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 294, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 153, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '@' is not in the alphabet\n"
     },
-    "success": false
+    "success": true
   },
   {
     "description": "Unmatched closing parenthesis",
@@ -437,7 +437,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <program>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <program>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 295, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 284, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <program>\n"
     },
     "success": true
   },
@@ -451,7 +451,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <expr>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 295, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 284, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
     },
     "success": true
   },
@@ -460,15 +460,15 @@
     "input": "(- 7 2)",
     "expected_output": {
       "status": "error",
-      "error_contains": "Character is not in the valid alphabet"
+      "error_contains": "Character '-' is not in the alphabet"
     },
     "actual_output": {
       "status": "error",
       "parse_tree": null,
       "error": "Character '-' is not in the alphabet",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 291, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '-' is not in the alphabet\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 294, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 153, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '-' is not in the alphabet\n"
     },
-    "success": false
+    "success": true
   },
   {
     "description": "Missing closing parenthesis",
@@ -480,7 +480,203 @@
       "status": "error",
       "parse_tree": null,
       "error": "Missing 1 closing parentheses",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 233, in Parse\n    raise ParseException(f\"Missing {parenthesisDepth} closing parentheses\")\nImplementation.ParseException: Missing 1 closing parentheses\n"
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 295, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 236, in Parse\n    raise ParseException(f\"Missing {parenthesisDepth} closing parentheses\")\nImplementation.ParseException: Missing 1 closing parentheses\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Leading/trailing spaces around number",
+    "input": "   42   ",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": {
+        "type": "NUMBER",
+        "value": 42
+      },
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Spaces between parens, operator, and operands",
+    "input": "( + 2 3 )",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "PLUS",
+          "value": "+"
+        },
+        {
+          "type": "NUMBER",
+          "value": 2
+        },
+        {
+          "type": "NUMBER",
+          "value": 3
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Multiple spaces between tokens",
+    "input": "(+    2    3)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "PLUS",
+          "value": "+"
+        },
+        {
+          "type": "NUMBER",
+          "value": 2
+        },
+        {
+          "type": "NUMBER",
+          "value": 3
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Newlines and tabs between tokens",
+    "input": "(\n+ \n2\t3\n)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "PLUS",
+          "value": "+"
+        },
+        {
+          "type": "NUMBER",
+          "value": 2
+        },
+        {
+          "type": "NUMBER",
+          "value": 3
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Lambda with mixed whitespace",
+    "input": "(\nλ  x   x\n)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "LAMBDA",
+          "value": "λ"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "x"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "x"
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Nested application with whitespace",
+    "input": "(\n(λ   x   (+  x    1))\t  5\n)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        [
+          {
+            "type": "LAMBDA",
+            "value": "λ"
+          },
+          {
+            "type": "IDENTIFIER",
+            "value": "x"
+          },
+          [
+            {
+              "type": "PLUS",
+              "value": "+"
+            },
+            {
+              "type": "IDENTIFIER",
+              "value": "x"
+            },
+            {
+              "type": "NUMBER",
+              "value": 1
+            }
+          ]
+        ],
+        {
+          "type": "NUMBER",
+          "value": 5
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Whitespace-only input",
+    "input": "   \n\t  ",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Input is empty or contains only whitespace",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 294, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 140, in GetTokensForString\n    raise LexerException(\"Input is empty or contains only whitespace\")\nImplementation.LexerException: Input is empty or contains only whitespace\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Empty input",
+    "input": "",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Input is empty or contains only whitespace",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 294, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 140, in GetTokensForString\n    raise LexerException(\"Input is empty or contains only whitespace\")\nImplementation.LexerException: Input is empty or contains only whitespace\n"
     },
     "success": true
   }
