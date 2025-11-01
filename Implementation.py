@@ -5,7 +5,7 @@ class LexerException(Exception):
 
 class ParseException(Exception):
     pass
-
+ 
 class State(Enum):
     START_OR_SPACE = auto()
     NUMBER = auto()
@@ -172,9 +172,9 @@ class Parser:
             '<expr>': {
                 'NUMBER': ['NUMBER'],
                 'IDENTIFIER': ['IDENTIFIER'],
-                'LPAREN': ['LPAREN', '<parent-expr>', 'RPAREN']
+                'LPAREN': ['LPAREN', '<paren-expr>', 'RPAREN']
             },
-            '<parent-expr>': {
+            '<paren-expr>': {
                 'PLUS': ['PLUS', '<expr>', '<expr>'],
                 'MULT': ['MULT', '<expr>', '<expr>'],
                 'EQUALS': ['EQUALS', '<expr>', '<expr>'],
@@ -217,6 +217,8 @@ class Parser:
                 if top == currentTokenType:
                     stack.pop()
 
+                    # Since the only situation where a non-terminal is expanded to more than one terminal is when expanding the non terminal <paren-expr>, 
+                    # and <paren-expr> can ONLY appear when surrounded by parentheses, we can safely use the parenthesis to manage the parse tree depth/structure. 
                     if (currentTokenType == 'LPAREN'):
                         parenthesisDepth += 1
                         newParseTreeSublist = []
@@ -256,13 +258,20 @@ class Parser:
                 else:
                     if currentTokenType == '$':
                         raise Exception(f"Unexpected end of input while parsing: {top}")
-                    elif top == '<parent-expr>':
+                    elif top == '<paren-expr>':
                         raise Exception(f"Invalid expression inside parentheses: {currentTokenType}")
                     else:
                         raise Exception(f"Unexpected {currentTokenType} while parsing: {top}")
 
         result = parseTreeStack[0]
         return result[0] if len(result) == 1 else result
+    
+class MiniLispAnalyser:
+    @classmethod
+    def Analyse(cls, input):
+        tokens = Lexer.GetTokensForString(input)
+        parseTree = Parser.Parse(tokens)
+        return parseTree
          
 def main():
     print("test")
@@ -271,70 +280,52 @@ def main():
 if __name__ == "__main__":
      # Basic expressions
      print("Test: 42")
-     tokens1 = Lexer.GetTokensForString("42")
-     print("Tokens:", tokens1)
-     print("Parse:", Parser.Parse(tokens1))
+     print("Parse:", MiniLispAnalyser.Analyse("42"))
      print()
      
      print("Test: x")
-     tokens2 = Lexer.GetTokensForString("x")
-     print("Tokens:", tokens2)
-     print("Parse:", Parser.Parse(tokens2))
+     print("Parse:", MiniLispAnalyser.Analyse("x"))
      print()
      
      print("Test: (+ 2 3)")
-     tokens3 = Lexer.GetTokensForString("(+ 2 3)")
-     print("Tokens:", tokens3)
-     print("Parse:", Parser.Parse(tokens3))
+     print("Parse:", MiniLispAnalyser.Analyse("(+ 2 3)"))
      print()
      
      print("Test: (× x 5)")
-     tokens4 = Lexer.GetTokensForString("(× x 5)")
-     print("Tokens:", tokens4)
-     print("Parse:", Parser.Parse(tokens4))
+     print("Parse:", MiniLispAnalyser.Analyse("(× x 5)"))
      print()
      
      # Nested expressions
      print("Test: (+ (× 2 3) 4)")
-     tokens5 = Lexer.GetTokensForString("(+ (× 2 3) 4)")
-     print("Tokens:", tokens5)
-     print("Parse:", Parser.Parse(tokens5))
+     print("Parse:", MiniLispAnalyser.Analyse("(+ (× 2 3) 4)"))
      print()
      
      print("Test: (? (= x 0) 1 0)")
-     tokens6 = Lexer.GetTokensForString("(? (= x 0) 1 0)")
-     print("Tokens:", tokens6)
-     print("Parse:", Parser.Parse(tokens6))
+     print("Parse:", MiniLispAnalyser.Analyse("(? (= x 0) 1 0)"))
      print()
      
      # Function expressions
      print("Test: (λ x x)")
-     tokens7 = Lexer.GetTokensForString("(λ x x)")
-     print("Tokens:", tokens7)
-     print("Parse:", Parser.Parse(tokens7))
+     print("Parse:", MiniLispAnalyser.Analyse("(λ x x)"))
      print()
      
      print("Test: (≜ y 10 y)")
-     tokens8 = Lexer.GetTokensForString("(≜ y 10 y)")
-     print("Tokens:", tokens8)
-     print("Parse:", Parser.Parse(tokens8))
+     print("Parse:", MiniLispAnalyser.Analyse("(≜ y 10 y)"))
      print()
      
      print("Test: ((λ x (+ x 1)) 5)")
-     tokens9 = Lexer.GetTokensForString("((λ x (+ x 1)) 5)")
-     print("Tokens:", tokens9)
-     print("Parse:", Parser.Parse(tokens9))
+     print("Parse:", MiniLispAnalyser.Analyse("((λ x (+ x 1)) 5)"))
      print()
      
      # More complex
      print("Test: (× (+ 1 2) (− 5 3))")
-     tokens10 = Lexer.GetTokensForString("(× (+ 1 2) (− 5 3))")
-     print("Tokens:", tokens10)
-     print("Parse:", Parser.Parse(tokens10))
+     print("Parse:", MiniLispAnalyser.Analyse("(× (+ 1 2) (− 5 3))"))
      print()
      
      print("Test: (λ f (λ x (f x)))")
-     tokens11 = Lexer.GetTokensForString("(λ f (λ x (f x)))")
-     print("Tokens:", tokens11)
-     print("Parse:", Parser.Parse(tokens11))
+     print("Parse:", MiniLispAnalyser.Analyse("(λ f (λ x (f x)))"))
+     print()
+
+     print("Test: (λ f (λ x (f (f (f x)))))")
+     print("Parse:", MiniLispAnalyser.Analyse("(λ f (λ x (f (f (f x)))))"))
      print()
