@@ -2,7 +2,7 @@ import json
 import traceback
 from typing import Any, Union
 
-from Implementation import MiniLispAnalyser, Token, TokenType  # switched to MiniLispAnalyser
+from Implementation import MiniLispAnalyser, Token, TokenType
 
 def token_to_json(t: Token) -> dict[str, Any]:
     return {
