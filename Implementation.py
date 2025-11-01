@@ -107,16 +107,28 @@ class Lexer:
 
         transitions = {}
 
-        for state in allNonErrorStates:
-            for digit in numbers:
-                transitions[(state, digit)] = State.NUMBER
-            
-            for letter in identifiers:
-                transitions[(state, letter)] = State.IDENTIFIER
+        ## Letters
+        for letter in identifiers:
+            transitions[(State.IDENTIFIER, letter)] = State.IDENTIFIER
+            transitions[(State.NUMBER, letter)] = State.ERROR
+            transitions[(State.START_OR_SPACE, letter)] = State.IDENTIFIER
+            transitions[(State.SINGLE_CHARACTER_TOKEN, letter)] = State.IDENTIFIER
 
-            for character in singleCharacterTokenCharacters:
-                transitions[(state, character)] = State.SINGLE_CHARACTER_TOKEN
-            
+        # Numbers
+        for digit in numbers:
+            transitions[(State.NUMBER, digit)] = State.NUMBER
+            transitions[(State.IDENTIFIER, digit)] = State.ERROR
+            transitions[(State.START_OR_SPACE, digit)] = State.NUMBER
+            transitions[(State.SINGLE_CHARACTER_TOKEN, digit)] = State.NUMBER
+
+        # Single character tokens
+        for character in singleCharacterTokenCharacters:
+            transitions[(State.SINGLE_CHARACTER_TOKEN, character)] = State.ERROR
+            transitions[(State.NUMBER, character)] = State.SINGLE_CHARACTER_TOKEN
+            transitions[(State.IDENTIFIER, character)] = State.SINGLE_CHARACTER_TOKEN
+            transitions[(State.START_OR_SPACE, character)] = State.SINGLE_CHARACTER_TOKEN
+
+        for state in allNonErrorStates:
             transitions[(state, " ")] = State.START_OR_SPACE
 
         return transitions
