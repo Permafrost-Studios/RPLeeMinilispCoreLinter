@@ -109,7 +109,7 @@ class Lexer:
 
         transitions = {}
 
-        ## Letters
+        ## Identifiers
         for letter in self.identifiers:
             transitions[(State.IDENTIFIER, letter)] = State.IDENTIFIER
             transitions[(State.NUMBER, letter)] = State.ERROR
