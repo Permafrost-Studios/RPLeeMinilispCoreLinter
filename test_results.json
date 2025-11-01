@@ -469,5 +469,19 @@
       "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 272, in Analyse\n    tokens = Lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 137, in GetTokensForString\n    raise LexerException(f\"Character is not in the valid alphabet: '{character}'\")\nImplementation.LexerException: Character is not in the valid alphabet: '-'\n"
     },
     "success": true
+  },
+  {
+    "description": "Missing closing parenthesis",
+    "input": "((λ x (+ x 1)) 5",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "list index out of range",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 273, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 248, in Parse\n    currentTokenType = tokens[inputTokensIndex].tokenType.name\n                       ~~~~~~^^^^^^^^^^^^^^^^^^\nIndexError: list index out of range\n"
+    },
+    "success": true
   }
 ]
