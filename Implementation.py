@@ -1,4 +1,6 @@
 from enum import Enum, auto
+import sys
+import argparse
 
 class LexerException(Exception):
     pass
@@ -30,7 +32,7 @@ class TokenType(Enum):
 class Token:
     def __init__(self, tokenType, value):
         if tokenType is None:
-            # Single character tokens can only have one token type
+            # For single character tokens - can only have one token type
             self.tokenType = self.getTokenTypeForSingleCharacterToken(value)
             self.value = value
         else:
@@ -194,8 +196,7 @@ class Parser:
             }
         }
 
-        parseTreeStack = [[]]
-        currentlyObservedParseTreeSublist = parseTreeStack[-1]
+        parseTreeStack = [[]] ## Initial nested list is needed so that "parseTreeStack[-1]" can always be used to the get the latest parse tree container in the stack
 
         terminals = {'NUMBER', 'IDENTIFIER', 'PLUS', 'MULT', 'EQUALS', 'MINUS', 'CONDITIONAL', 'LAMBDA', 'LET', 'LPAREN', 'RPAREN', '$'}
         nonTerminals = set(parsingTable.keys())
@@ -211,7 +212,7 @@ class Parser:
             if top == '$':
                 stack.pop()
                 if parenthesisDepth > 0:
-                    raise ParseException(f"Missing {parenthesisDepth} closing parenthesis(es)")
+                    raise ParseException(f"Missing {parenthesisDepth} closing parentheses")
             elif (top in terminals):
                 currentTokenType = tokens[inputTokensIndex].tokenType.name
                 if top == currentTokenType:
@@ -221,19 +222,20 @@ class Parser:
                     # and <paren-expr> can ONLY appear when surrounded by parentheses, we can safely use the parenthesis to manage the parse tree depth/structure. 
                     if (currentTokenType == 'LPAREN'):
                         parenthesisDepth += 1
+
+                        # Add new parse tree container to the stack - will be put into its 'parent' tree container when RPAREN is encountered
                         newParseTreeSublist = []
                         parseTreeStack.append(newParseTreeSublist)
-                        currentlyObservedParseTreeSublist = newParseTreeSublist
                     elif (currentTokenType == 'RPAREN'):
                         parenthesisDepth -= 1
                         if parenthesisDepth < 0:
                             raise ParseException(f"Unmatched closing parenthesis at position: {inputTokensIndex}")
+                        
+                        # Removes the current parse tree container from the stack and appends it to the 'parent' parse tree container
                         completedParseTreeSublist = parseTreeStack.pop()
-                        if len(parseTreeStack) > 0:
-                            parseTreeStack[-1].append(completedParseTreeSublist)
-                            currentlyObservedParseTreeSublist = parseTreeStack[-1]
+                        parseTreeStack[-1].append(completedParseTreeSublist)
                     else:
-                        currentlyObservedParseTreeSublist.append(tokens[inputTokensIndex])
+                        parseTreeStack[-1].append(tokens[inputTokensIndex])
                     
                     inputTokensIndex += 1
                 else:
@@ -250,7 +252,7 @@ class Parser:
                 productionRules = parsingTable.get(top, None).get(currentTokenType, None)
                 if productionRules is not None:
                     stack.pop()
-                    if len(productionRules) == 0:
+                    if len(productionRules) == 0: # Only case is: ('<expr>*', ')') -> [] 
                         pass
                     else:
                         for symbol in reversed(productionRules):
@@ -274,58 +276,18 @@ class MiniLispAnalyser:
         return parseTree
          
 def main():
-    print("test")
-
+    parser = argparse.ArgumentParser(description='MiniLisp Lexer and Parser')
+    parser.add_argument('mode', choices = ['Lexer', 'Analyser'], help = 'Mode to run: Lexer (lexer only), Analyser (full analysis)')
+    parser.add_argument('input', help = 'MiniLisp expression to process')
     
-if __name__ == "__main__":
-     # Basic expressions
-     print("Test: 42")
-     print("Parse:", MiniLispAnalyser.Analyse("42"))
-     print()
-     
-     print("Test: x")
-     print("Parse:", MiniLispAnalyser.Analyse("x"))
-     print()
-     
-     print("Test: (+ 2 3)")
-     print("Parse:", MiniLispAnalyser.Analyse("(+ 2 3)"))
-     print()
-     
-     print("Test: (× x 5)")
-     print("Parse:", MiniLispAnalyser.Analyse("(× x 5)"))
-     print()
-     
-     # Nested expressions
-     print("Test: (+ (× 2 3) 4)")
-     print("Parse:", MiniLispAnalyser.Analyse("(+ (× 2 3) 4)"))
-     print()
-     
-     print("Test: (? (= x 0) 1 0)")
-     print("Parse:", MiniLispAnalyser.Analyse("(? (= x 0) 1 0)"))
-     print()
-     
-     # Function expressions
-     print("Test: (λ x x)")
-     print("Parse:", MiniLispAnalyser.Analyse("(λ x x)"))
-     print()
-     
-     print("Test: (≜ y 10 y)")
-     print("Parse:", MiniLispAnalyser.Analyse("(≜ y 10 y)"))
-     print()
-     
-     print("Test: ((λ x (+ x 1)) 5)")
-     print("Parse:", MiniLispAnalyser.Analyse("((λ x (+ x 1)) 5)"))
-     print()
-     
-     # More complex
-     print("Test: (× (+ 1 2) (− 5 3))")
-     print("Parse:", MiniLispAnalyser.Analyse("(× (+ 1 2) (− 5 3))"))
-     print()
-     
-     print("Test: (λ f (λ x (f x)))")
-     print("Parse:", MiniLispAnalyser.Analyse("(λ f (λ x (f x)))"))
-     print()
+    args = parser.parse_args()
+    
+    if args.mode == 'Lexer':
+        tokens = Lexer.GetTokensForString(args.input)
+        print("Tokens:", tokens)
+    elif args.mode == 'Analyser':
+        parseTree = MiniLispAnalyser.Analyse(args.input)
+        print("Parse Tree:", parseTree)
 
-     print("Test: (λ f (λ x (f (f (f x)))))")
-     print("Parse:", MiniLispAnalyser.Analyse("(λ f (λ x (f (f (f x)))))"))
-     print()
+if __name__ == "__main__":
+    main()
