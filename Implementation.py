@@ -89,40 +89,42 @@ class Token:
 
 
 class Lexer:
-    @classmethod
-    def createTransitionFunctions(cls):
-        numbers = {"0","1","2","3","4","5","6","7","8","9"}
+    def __init__(self):
+        self.numbers = {"0","1","2","3","4","5","6","7","8","9"}
 
-        lowerCaseIdentifiers = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
-        identifiers = lowerCaseIdentifiers.union({x.upper() for x in lowerCaseIdentifiers})
+        self.lowerCaseIdentifiers = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
+        self.identifiers = self.lowerCaseIdentifiers.union({x.upper() for x in self.lowerCaseIdentifiers})
 
-        operators = {"+", "×", "=", "−", "?", "λ", "≜"}
-        formattingCharacters = {"(", ")"}
+        self.operators = {"+", "×", "=", "−", "?", "λ", "≜"}
+        self.formattingCharacters = {"(", ")"}
 
-        singleCharacterTokenCharacters = operators.union(formattingCharacters)
+        self.singleCharacterTokenCharacters = self.operators.union(self.formattingCharacters)
 
-        #alphabet = numbers + identifiers + singleCharacterTokenCharacters
+        self.whiteSpaceCharacters = {" ", "\t", "\n"}
 
+        self.alphabet = self.numbers.union(self.identifiers).union(self.singleCharacterTokenCharacters).union(self.whiteSpaceCharacters)
+
+    def createTransitionFunctions(self):
         allNonErrorStates = [State.START_OR_SPACE, State.NUMBER, State.IDENTIFIER, State.SINGLE_CHARACTER_TOKEN]
 
         transitions = {}
 
         ## Letters
-        for letter in identifiers:
+        for letter in self.identifiers:
             transitions[(State.IDENTIFIER, letter)] = State.IDENTIFIER
             transitions[(State.NUMBER, letter)] = State.ERROR
             transitions[(State.START_OR_SPACE, letter)] = State.IDENTIFIER
             transitions[(State.SINGLE_CHARACTER_TOKEN, letter)] = State.IDENTIFIER
 
         # Numbers
-        for digit in numbers:
+        for digit in self.numbers:
             transitions[(State.NUMBER, digit)] = State.NUMBER
             transitions[(State.IDENTIFIER, digit)] = State.ERROR
             transitions[(State.START_OR_SPACE, digit)] = State.NUMBER
             transitions[(State.SINGLE_CHARACTER_TOKEN, digit)] = State.NUMBER
 
         # Single character tokens
-        for character in singleCharacterTokenCharacters:
+        for character in self.singleCharacterTokenCharacters:
             transitions[(State.SINGLE_CHARACTER_TOKEN, character)] = State.SINGLE_CHARACTER_TOKEN
             transitions[(State.NUMBER, character)] = State.SINGLE_CHARACTER_TOKEN
             transitions[(State.IDENTIFIER, character)] = State.SINGLE_CHARACTER_TOKEN
@@ -133,9 +135,8 @@ class Lexer:
 
         return transitions
 
-    @classmethod
-    def GetTokensForString(cls, input):
-        transitionFunctionDictionary = cls.createTransitionFunctions()
+    def GetTokensForString(self, input):
+        transitionFunctionDictionary = self.createTransitionFunctions()
 
         allTokens = []
 
@@ -145,10 +146,13 @@ class Lexer:
         currentState = State.START_OR_SPACE
 
         for character in input:
+            if character not in self.alphabet:
+                raise LexerException(f"Character '{character}' is not in the alphabet")
+
             newState = transitionFunctionDictionary.get((currentState, character), State.ERROR)
 
             if newState == State.ERROR:
-                raise LexerException(f"Character is not in the valid alphabet: '{character}'")
+                raise LexerException(f"Transition ({currentState}, '{character}') is not valid")
             
             if (newState != currentState):
                 if currentState == State.NUMBER:
@@ -283,7 +287,9 @@ class Parser:
 class MiniLispAnalyser:
     @classmethod
     def Analyse(cls, input):
-        tokens = Lexer.GetTokensForString(input)
+        lexer = Lexer()
+
+        tokens = lexer.GetTokensForString(input)
         parseTree = Parser.Parse(tokens)
         return parseTree
          
