@@ -153,6 +153,7 @@ class Lexer:
             if newState == State.ERROR:
                 raise LexerException(f"Transition ({currentState}, '{character}') is not valid")
             
+            # Tokens are added when states change
             if (newState != currentState):
                 if currentState == State.NUMBER:
                     allTokens.append(Token(TokenType.NUMBER, int(numberBuffer)))
@@ -163,6 +164,7 @@ class Lexer:
 
             currentState = newState
 
+            # Tokenize any leftover buffer
             if currentState == State.SINGLE_CHARACTER_TOKEN:
                 allTokens.append(Token(None, character))
             elif currentState == State.NUMBER:
