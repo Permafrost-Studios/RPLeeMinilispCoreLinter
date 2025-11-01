@@ -1,0 +1,473 @@
+[
+  {
+    "description": "NUMBER literal",
+    "input": "42",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": {
+        "type": "NUMBER",
+        "value": 42
+      },
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "IDENTIFIER literal",
+    "input": "x",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": {
+        "type": "IDENTIFIER",
+        "value": "x"
+      },
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Simple addition",
+    "input": "(+ 2 3)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "PLUS",
+          "value": "+"
+        },
+        {
+          "type": "NUMBER",
+          "value": 2
+        },
+        {
+          "type": "NUMBER",
+          "value": 3
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Multiplication with identifier",
+    "input": "(× x 5)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "MULT",
+          "value": "×"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "x"
+        },
+        {
+          "type": "NUMBER",
+          "value": 5
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Nested arithmetic",
+    "input": "(+ (× 2 3) 4)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "PLUS",
+          "value": "+"
+        },
+        [
+          {
+            "type": "MULT",
+            "value": "×"
+          },
+          {
+            "type": "NUMBER",
+            "value": 2
+          },
+          {
+            "type": "NUMBER",
+            "value": 3
+          }
+        ],
+        {
+          "type": "NUMBER",
+          "value": 4
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Conditional expression",
+    "input": "(? (= x 0) 1 0)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "CONDITIONAL",
+          "value": "?"
+        },
+        [
+          {
+            "type": "EQUALS",
+            "value": "="
+          },
+          {
+            "type": "IDENTIFIER",
+            "value": "x"
+          },
+          {
+            "type": "NUMBER",
+            "value": 0
+          }
+        ],
+        {
+          "type": "NUMBER",
+          "value": 1
+        },
+        {
+          "type": "NUMBER",
+          "value": 0
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Lambda identity",
+    "input": "(λ x x)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "LAMBDA",
+          "value": "λ"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "x"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "x"
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Let binding",
+    "input": "(≜ y 10 y)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "LET",
+          "value": "≜"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "y"
+        },
+        {
+          "type": "NUMBER",
+          "value": 10
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "y"
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Lambda application",
+    "input": "((λ x (+ x 1)) 5)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        [
+          {
+            "type": "LAMBDA",
+            "value": "λ"
+          },
+          {
+            "type": "IDENTIFIER",
+            "value": "x"
+          },
+          [
+            {
+              "type": "PLUS",
+              "value": "+"
+            },
+            {
+              "type": "IDENTIFIER",
+              "value": "x"
+            },
+            {
+              "type": "NUMBER",
+              "value": 1
+            }
+          ]
+        ],
+        {
+          "type": "NUMBER",
+          "value": 5
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Mixed operators with unicode minus",
+    "input": "(× (+ 1 2) (− 5 3))",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "MULT",
+          "value": "×"
+        },
+        [
+          {
+            "type": "PLUS",
+            "value": "+"
+          },
+          {
+            "type": "NUMBER",
+            "value": 1
+          },
+          {
+            "type": "NUMBER",
+            "value": 2
+          }
+        ],
+        [
+          {
+            "type": "MINUS",
+            "value": "−"
+          },
+          {
+            "type": "NUMBER",
+            "value": 5
+          },
+          {
+            "type": "NUMBER",
+            "value": 3
+          }
+        ]
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Higher-order lambda",
+    "input": "(λ f (λ x (f x)))",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "LAMBDA",
+          "value": "λ"
+        },
+        {
+          "type": "IDENTIFIER",
+          "value": "f"
+        },
+        [
+          {
+            "type": "LAMBDA",
+            "value": "λ"
+          },
+          {
+            "type": "IDENTIFIER",
+            "value": "x"
+          },
+          [
+            {
+              "type": "IDENTIFIER",
+              "value": "f"
+            },
+            {
+              "type": "IDENTIFIER",
+              "value": "x"
+            }
+          ]
+        ]
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Unicode minus operator (U+2212)",
+    "input": "(− 7 2)",
+    "expected_output": {
+      "status": "success"
+    },
+    "actual_output": {
+      "status": "success",
+      "parse_tree": [
+        {
+          "type": "MINUS",
+          "value": "−"
+        },
+        {
+          "type": "NUMBER",
+          "value": 7
+        },
+        {
+          "type": "NUMBER",
+          "value": 2
+        }
+      ],
+      "error": null,
+      "traceback": null
+    },
+    "success": true
+  },
+  {
+    "description": "Too few args for +",
+    "input": "(+ 1)",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Unexpected RPAREN while parsing: <expr>",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 273, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 264, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <expr>\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Too many args for +",
+    "input": "(+ 1 2 3)",
+    "expected_output": {
+      "status": "error",
+      "error_contains": "Expected closing parenthesis"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Expected closing parenthesis, but found: NUMBER. Wrong number of arguments",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 273, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 243, in Parse\n    raise ParseException(f\"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments\")\nImplementation.ParseException: Expected closing parenthesis, but found: NUMBER. Wrong number of arguments\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Invalid character",
+    "input": "@",
+    "expected_output": {
+      "status": "error",
+      "error_contains": "Character is not in the valid alphabet"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Character is not in the valid alphabet: '@'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 272, in Analyse\n    tokens = Lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 137, in GetTokensForString\n    raise LexerException(f\"Character is not in the valid alphabet: '{character}'\")\nImplementation.LexerException: Character is not in the valid alphabet: '@'\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Unmatched closing parenthesis",
+    "input": ")",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Unexpected RPAREN while parsing: <program>",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 273, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 264, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <program>\n"
+    },
+    "success": true
+  },
+  {
+    "description": "Too few args for ?",
+    "input": "(? 1 2)",
+    "expected_output": {
+      "status": "error"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Unexpected RPAREN while parsing: <expr>",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 273, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 264, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <expr>\n"
+    },
+    "success": true
+  },
+  {
+    "description": "ASCII hyphen-minus should be rejected",
+    "input": "(- 7 2)",
+    "expected_output": {
+      "status": "error",
+      "error_contains": "Character is not in the valid alphabet"
+    },
+    "actual_output": {
+      "status": "error",
+      "parse_tree": null,
+      "error": "Character is not in the valid alphabet: '-'",
+      "traceback": "Traceback (most recent call last):\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 272, in Analyse\n    tokens = Lexer.GetTokensForString(input)\n  File \"/Users/bryanlee/Documents/University/Theory Of Computing Science/Assignments/minilisp-parser/Implementation.py\", line 137, in GetTokensForString\n    raise LexerException(f\"Character is not in the valid alphabet: '{character}'\")\nImplementation.LexerException: Character is not in the valid alphabet: '-'\n"
+    },
+    "success": true
+  }
+]
