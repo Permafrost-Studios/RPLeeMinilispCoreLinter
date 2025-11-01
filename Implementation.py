@@ -1,5 +1,11 @@
 from enum import Enum, auto
 
+class LexerException(Exception):
+    pass
+
+class ParseException(Exception):
+    pass
+
 class State(Enum):
     START_OR_SPACE = auto()
     NUMBER = auto()
@@ -24,7 +30,7 @@ class TokenType(Enum):
 class Token:
     def __init__(self, tokenType, value):
         if tokenType is None:
-            # Single character tokens can nly have oone token type
+            # Single character tokens can only have one token type
             self.tokenType = self.getTokenTypeForSingleCharacterToken(value)
             self.value = value
         else:
@@ -127,12 +133,8 @@ class Lexer:
         for character in input:
             newState = transitionFunctionDictionary.get((currentState, character), State.ERROR)
 
-            # print("Number Buffer: '" + numberBuffer + "'")
-            # print("Identifier Buffer: '" + identifierBuffer + "'")
-            # print("Transitioning from " + str(currentState) + " to " + str(newState) + " on character '" + character + "'")
-
             if newState == State.ERROR:
-                raise Exception("Lexical Error: Character is not in the valid alphabet: '" + character + "'")
+                raise LexerException(f"Character is not in the valid alphabet: '{character}'")
             
             if (newState != currentState):
                 if currentState == State.NUMBER:
@@ -188,7 +190,7 @@ class Parser:
                 'NUMBER': ['<expr>', '<expr>*'],
                 'IDENTIFIER': ['<expr>', '<expr>*'],
                 'LPAREN': ['<expr>', '<expr>*'],
-                'RPAREN': []  # (empty production)
+                'RPAREN': []
             }
         }
 
@@ -201,22 +203,29 @@ class Parser:
         stack = ['$', '<program>']
 
         inputTokensIndex = 0
+        parenthesisDepth = 0
         
         while len(stack) > 0:
             top = stack[-1]
 
             if top == '$':
                 stack.pop()
+                if parenthesisDepth > 0:
+                    raise ParseException(f"Missing {parenthesisDepth} closing parenthesis(es)")
             elif (top in terminals):
                 currentTokenType = tokens[inputTokensIndex].tokenType.name
                 if top == currentTokenType:
                     stack.pop()
 
                     if (currentTokenType == 'LPAREN'):
+                        parenthesisDepth += 1
                         newParseTreeSublist = []
                         parseTreeStack.append(newParseTreeSublist)
                         currentlyObservedParseTreeSublist = newParseTreeSublist
                     elif (currentTokenType == 'RPAREN'):
+                        parenthesisDepth -= 1
+                        if parenthesisDepth < 0:
+                            raise ParseException(f"Unmatched closing parenthesis at position: {inputTokensIndex}")
                         completedParseTreeSublist = parseTreeStack.pop()
                         if len(parseTreeStack) > 0:
                             parseTreeStack[-1].append(completedParseTreeSublist)
@@ -226,7 +235,12 @@ class Parser:
                     
                     inputTokensIndex += 1
                 else:
-                    raise Exception(f"Parse Error: Expected {top}, found {currentTokenType}")
+                    if currentTokenType == '$':
+                        raise ParseException(f"Unexpected end of input. Expected: {top}")
+                    elif top == 'RPAREN':
+                        raise ParseException(f"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments")
+                    else:
+                        raise ParseException(f"Expected {top}, found: {currentTokenType}")
                 
             elif top in nonTerminals:
                 currentTokenType = tokens[inputTokensIndex].tokenType.name
@@ -240,7 +254,12 @@ class Parser:
                         for symbol in reversed(productionRules):
                             stack.append(symbol)
                 else:
-                    raise Exception(f"Parse Error: No production for {top} with input {currentTokenType}")
+                    if currentTokenType == '$':
+                        raise Exception(f"Unexpected end of input while parsing: {top}")
+                    elif top == '<parent-expr>':
+                        raise Exception(f"Invalid expression inside parentheses: {currentTokenType}")
+                    else:
+                        raise Exception(f"Unexpected {currentTokenType} while parsing: {top}")
 
         result = parseTreeStack[0]
         return result[0] if len(result) == 1 else result
