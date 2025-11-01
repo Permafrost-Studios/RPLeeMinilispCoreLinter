@@ -123,7 +123,7 @@ class Lexer:
 
         # Single character tokens
         for character in singleCharacterTokenCharacters:
-            transitions[(State.SINGLE_CHARACTER_TOKEN, character)] = State.ERROR
+            transitions[(State.SINGLE_CHARACTER_TOKEN, character)] = State.SINGLE_CHARACTER_TOKEN
             transitions[(State.NUMBER, character)] = State.SINGLE_CHARACTER_TOKEN
             transitions[(State.IDENTIFIER, character)] = State.SINGLE_CHARACTER_TOKEN
             transitions[(State.START_OR_SPACE, character)] = State.SINGLE_CHARACTER_TOKEN
