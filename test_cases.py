@@ -72,7 +72,8 @@ def main() -> None:
         {"input": "@", "desc": "Invalid character", "expected": {"status": "error", "error_contains": "Character is not in the valid alphabet"}},
         {"input": ")", "desc": "Unmatched closing parenthesis", "expected": {"status": "error"}},
         {"input": "(? 1 2)", "desc": "Too few args for ?", "expected": {"status": "error"}},
-        {"input": "(- 7 2)", "desc": "ASCII hyphen-minus should be rejected", "expected": {"status": "error", "error_contains": "Character is not in the valid alphabet"}}
+        {"input": "(- 7 2)", "desc": "ASCII hyphen-minus should be rejected", "expected": {"status": "error", "error_contains": "Character is not in the valid alphabet"}},
+        {"input": "((λ x (+ x 1)) 5", "desc": "Missing closing parenthesis", "expected": {"status": "error"}}
     ]
 
     results = [run_test_case(t["input"], t["desc"], t["expected"]) for t in tests]
