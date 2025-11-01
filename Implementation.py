@@ -211,7 +211,7 @@ class Parser:
             }
         }
 
-        parseTreeStack = [[]] ## Initial nested list is needed so that "parseTreeStack[-1]" can always be used to the get the latest parse tree container in the stack
+        parseTreeStack = [[]] # Initial nested list is needed so that "parseTreeStack[-1]" can always be used to the get the latest parse tree container in the stack
 
         terminals = {'NUMBER', 'IDENTIFIER', 'PLUS', 'MULT', 'EQUALS', 'MINUS', 'CONDITIONAL', 'LAMBDA', 'LET', 'LPAREN', 'RPAREN', '$'}
         nonTerminals = set(parsingTable.keys())
@@ -263,6 +263,7 @@ class Parser:
                         raise ParseException(f"Expected {top}, found: {currentTokenType}")
                 
             elif top in nonTerminals:
+                # Check if there is a valid production rule for the current non-terminal and token
                 productionRules = parsingTable.get(top, None).get(currentTokenType, None)
                 if productionRules is not None:
                     stack.pop()
