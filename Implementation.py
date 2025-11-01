@@ -130,15 +130,11 @@ class Lexer:
             transitions[(State.START_OR_SPACE, character)] = State.SINGLE_CHARACTER_TOKEN
 
         for state in allNonErrorStates:
-            for ws in {" ", "\t", "\n", "\r"}:
-                transitions[(state, ws)] = State.START_OR_SPACE
+            transitions[(state, " ")] = State.START_OR_SPACE
 
         return transitions
 
     def GetTokensForString(self, input):
-        if not input.strip():
-            raise LexerException("Input is empty or contains only whitespace")
-
         transitionFunctionDictionary = self.createTransitionFunctions()
 
         allTokens = []
