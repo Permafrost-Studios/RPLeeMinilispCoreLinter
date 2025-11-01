@@ -224,13 +224,14 @@ class Parser:
         
         while len(stack) > 0:
             top = stack[-1]
+            currentTokenType = tokens[inputTokensIndex].tokenType.name if inputTokensIndex < len(tokens) else '$'
 
-            if top == '$':
+
+            if top == '$' or currentTokenType == '$':
                 stack.pop()
                 if parenthesisDepth > 0:
                     raise ParseException(f"Missing {parenthesisDepth} closing parentheses")
             elif (top in terminals):
-                currentTokenType = tokens[inputTokensIndex].tokenType.name
                 if top == currentTokenType:
                     stack.pop()
 
@@ -263,8 +264,6 @@ class Parser:
                         raise ParseException(f"Expected {top}, found: {currentTokenType}")
                 
             elif top in nonTerminals:
-                currentTokenType = tokens[inputTokensIndex].tokenType.name
-
                 productionRules = parsingTable.get(top, None).get(currentTokenType, None)
                 if productionRules is not None:
                     stack.pop()
@@ -275,11 +274,11 @@ class Parser:
                             stack.append(symbol)
                 else:
                     if currentTokenType == '$':
-                        raise Exception(f"Unexpected end of input while parsing: {top}")
+                            raise ParseException(f"Unexpected end of input while parsing: {top}")
                     elif top == '<paren-expr>':
-                        raise Exception(f"Invalid expression inside parentheses: {currentTokenType}")
+                        raise ParseException(f"Invalid expression inside parentheses: {currentTokenType}")
                     else:
-                        raise Exception(f"Unexpected {currentTokenType} while parsing: {top}")
+                        raise ParseException(f"Unexpected {currentTokenType} while parsing: {top}")
 
         result = parseTreeStack[0]
         return result[0] if len(result) == 1 else result

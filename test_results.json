@@ -393,7 +393,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <expr>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 293, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 282, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <expr>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
     },
     "success": true
   },
@@ -408,7 +408,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Expected closing parenthesis, but found: NUMBER. Wrong number of arguments",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 293, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 261, in Parse\n    raise ParseException(f\"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments\")\nImplementation.ParseException: Expected closing parenthesis, but found: NUMBER. Wrong number of arguments\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 262, in Parse\n    raise ParseException(f\"Expected closing parenthesis, but found: {currentTokenType}. Wrong number of arguments\")\nImplementation.ParseException: Expected closing parenthesis, but found: NUMBER. Wrong number of arguments\n"
     },
     "success": true
   },
@@ -423,7 +423,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Character '@' is not in the alphabet",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '@' is not in the alphabet\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 291, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '@' is not in the alphabet\n"
     },
     "success": false
   },
@@ -437,7 +437,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <program>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 293, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 282, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <program>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <program>\n"
     },
     "success": true
   },
@@ -451,7 +451,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Unexpected RPAREN while parsing: <expr>",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 293, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 282, in Parse\n    raise Exception(f\"Unexpected {currentTokenType} while parsing: {top}\")\nException: Unexpected RPAREN while parsing: <expr>\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 281, in Parse\n    raise ParseException(f\"Unexpected {currentTokenType} while parsing: {top}\")\nImplementation.ParseException: Unexpected RPAREN while parsing: <expr>\n"
     },
     "success": true
   },
@@ -466,7 +466,7 @@
       "status": "error",
       "parse_tree": null,
       "error": "Character '-' is not in the alphabet",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '-' is not in the alphabet\n"
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 291, in Analyse\n    tokens = lexer.GetTokensForString(input)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 150, in GetTokensForString\n    raise LexerException(f\"Character '{character}' is not in the alphabet\")\nImplementation.LexerException: Character '-' is not in the alphabet\n"
     },
     "success": false
   },
@@ -479,8 +479,8 @@
     "actual_output": {
       "status": "error",
       "parse_tree": null,
-      "error": "list index out of range",
-      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 293, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 266, in Parse\n    currentTokenType = tokens[inputTokensIndex].tokenType.name\n                       ~~~~~~^^^^^^^^^^^^^^^^^^\nIndexError: list index out of range\n"
+      "error": "Missing 1 closing parentheses",
+      "traceback": "Traceback (most recent call last):\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\test_cases.py\", line 29, in run_test_case\n    result = MiniLispAnalyser.Analyse(input_str)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 292, in Analyse\n    parseTree = Parser.Parse(tokens)\n  File \"c:\\Users\\Julian\\Documents\\Uni\\Repos\\TocsSecondAssignment\\RPLeeMinilispCoreLinter\\Implementation.py\", line 233, in Parse\n    raise ParseException(f\"Missing {parenthesisDepth} closing parentheses\")\nImplementation.ParseException: Missing 1 closing parentheses\n"
     },
     "success": true
   }
